@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import CenteredPanel from "./CenteredPanel";
+import wealthsyLogo from "../img/logo.png"; 
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -33,6 +34,9 @@ export default function Login() {
   return (
     <>
       <CenteredPanel>
+        <div className="flex flex-col items-center mb-2">
+          <img src={wealthsyLogo} alt="Wealthsy Logo" className="h-14 w-auto mb-2 drop-shadow-lg" />
+        </div>
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <h2 className="text-2xl font-bold mb-2 text-center">Login</h2>
           {firebaseError && <div className="text-red-500 text-center">{firebaseError}</div>}
@@ -110,9 +114,6 @@ export default function Login() {
   );
 }
 
-// ... PasswordResetPanel stays the same ...
-
-
 function PasswordResetPanel({ onClose }) {
   const [email, setEmail] = useState("");
   const [showValidation, setShowValidation] = useState(false);
@@ -140,7 +141,6 @@ function PasswordResetPanel({ onClose }) {
     setLoading(false);
   };
 
-  // --- Panel content with X perfectly in top right corner, better spacing ---
   return (
     <CenteredPanel>
       <div className="relative w-full">

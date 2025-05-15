@@ -11,6 +11,7 @@ import Portfolio from "./components/Portfolio";
 import Belongings from "./components/Belongings";
 import TFSATracker from "./components/TFSATracker";
 import Dashboard from "./components/Dashboard";
+import wealthsyLogo from "./img/logo.png"; 
 
 // Protected route helper
 function RequireAuth({ children }) {
@@ -68,6 +69,15 @@ function AppContent() {
     <FinanceProvider>
       {user && (
         <nav className="flex items-center p-4 border-b bg-white sticky top-0 z-20 relative">
+          {/* Logo on the left, link to dashboard */}
+          <a href="/dashboard" className="flex items-center mr-4 shrink-0">
+            <img
+              src={wealthsyLogo}
+              alt="Wealthsy Logo"
+              className="h-10 w-auto drop-shadow-lg"
+              style={{ borderRadius: 12 }}
+            />
+          </a>
           {/* Centered tabs */}
           <div className="flex-1 flex justify-center gap-2">
             {TABS.map(t => (

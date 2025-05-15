@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import CenteredPanel from "./CenteredPanel";
+import wealthsyLogo from "../img/logo.png"; 
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -39,6 +40,9 @@ export default function Signup() {
 
   return (
     <CenteredPanel>
+      <div className="flex flex-col items-center mb-2">
+        <img src={wealthsyLogo} alt="Wealthsy Logo" className="h-14 w-auto mb-2 drop-shadow-lg" />
+      </div>
       <form onSubmit={handleSignup} className="flex flex-col gap-4">
         <h2 className="text-2xl font-bold mb-2 text-center">Sign Up</h2>
         {firebaseError && <div className="text-red-500 text-center">{firebaseError}</div>}
