@@ -83,7 +83,7 @@ export default function Landing() {
           <span className="text-2xl font-bold tracking-tight text-gray-900">Wealthsy</span>
         </div>
         <button
-          className="bg-black text-white px-6 py-2 rounded-xl text-lg font-semibold shadow hover:bg-gray-800 transition"
+          className="bg-black text-white px-6 py-2 rounded-xl text-lg font-semibold shadow hover:bg-gray-600 transition cursor-pointer transition"
           onClick={() => navigate("/signup")}
         >
           Get Started
@@ -156,7 +156,7 @@ export default function Landing() {
         </section>
         {/* CTA for mobile */}
         <button
-          className="md:hidden mt-8 bg-black text-white px-8 py-3 rounded-xl text-lg font-semibold shadow hover:bg-gray-800 transition"
+          className="md:hidden mt-8 bg-black text-white px-8 py-3 rounded-xl text-lg font-semibold shadow hover:bg-gray-600 transition cursor-pointer transition"
           onClick={() => navigate("/signup")}
         >
           Get Started

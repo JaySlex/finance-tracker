@@ -208,7 +208,7 @@ export default function TFSATracker() {
           onBlur={handleYearBlur}
         />
         <button
-          className="bg-black text-white rounded-xl px-4 py-2"
+          className="bg-black text-white rounded-xl px-4 py-2 hover:bg-gray-600 cursor-pointer transition"
           onClick={addYear}
         >
           Add Year
@@ -247,7 +247,7 @@ export default function TFSATracker() {
                           <li key={j} className="flex items-center justify-between text-green-700">
                             <span>+${amt.toLocaleString("en-CA")}</span>
                             <button
-                              className="ml-2 text-xs text-gray-400 hover:text-red-500"
+                              className="ml-2 text-xs text-gray-400 hover:text-red-500 cursor-pointer transition"
                               onClick={() => deleteContribution(i, j)}
                               title="Delete contribution"
                             >
@@ -274,7 +274,7 @@ export default function TFSATracker() {
                           }
                         />
                         <button
-                          className="bg-green-600 text-white rounded-xl px-3 py-1"
+                          className="bg-green-600 text-white rounded-xl px-3 py-1 cursor-pointer transition"
                           onClick={() => addContribution(i, contribution[i])}
                         >
                           Add
@@ -291,7 +291,7 @@ export default function TFSATracker() {
                           <li key={j} className="flex items-center justify-between text-red-700">
                             <span>- ${amt.toLocaleString("en-CA")}</span>
                             <button
-                              className="ml-2 text-xs text-gray-400 hover:text-red-500"
+                              className="ml-2 text-xs text-gray-400 hover:text-red-500 cursor-pointer transition"
                               onClick={() => deleteWithdrawal(i, j)}
                               title="Delete withdrawal"
                             >
@@ -318,7 +318,7 @@ export default function TFSATracker() {
                           }
                         />
                         <button
-                          className="bg-red-600 text-white rounded-xl px-3 py-1"
+                          className="bg-red-600 text-white rounded-xl px-3 py-1 cursor-pointer transition"
                           onClick={() => addWithdrawal(i, withdrawal[i])}
                         >
                           Add
@@ -331,7 +331,7 @@ export default function TFSATracker() {
                     {/* Remove year */}
                     <td className="px-2 py-2 align-top">
                       <button
-                        className="text-gray-400 hover:text-red-500 text-lg leading-none"
+                        className="text-gray-400 hover:text-red-500 text-lg leading-none cursor-pointer transition"
                         title="Remove year"
                         onClick={() => removeYear(t.year)}
                       >
@@ -350,7 +350,7 @@ export default function TFSATracker() {
           <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md mx-auto">
             <div className="mb-4 text-lg">{modalMessage}</div>
             <button
-              className="bg-black text-white px-4 py-2 rounded-xl"
+              className="bg-black text-white px-4 py-2 rounded-xl cursor-pointer transition"
               onClick={() => setShowModal(false)}
             >
               OK

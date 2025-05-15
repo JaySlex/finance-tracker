@@ -96,7 +96,7 @@ function AppContent() {
           {/* Profile dropdown on the right */}
           <div className="relative ml-4" ref={menuRef}>
             <button
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-100 text-gray-800 font-medium transition-shadow shadow-sm ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-100 text-gray-800 font-medium transition-shadow shadow-sm cursor-pointer transition ${
                 menuOpen ? "ring-2 ring-gray-200" : ""
               }`}
               onClick={() => setMenuOpen((m) => !m)}
@@ -123,7 +123,7 @@ function AppContent() {
                 </button>
                 <hr className="my-1 border-gray-100" />
                 <button
-                  className="w-full text-left px-4 py-2 hover:bg-gray-50 transition text-red-600 font-medium"
+                  className="w-full text-left px-4 py-2 hover:bg-gray-50 transition text-red-600 font-medium cursor-pointer transition"
                   onClick={() => {
                     setMenuOpen(false);
                     logout();

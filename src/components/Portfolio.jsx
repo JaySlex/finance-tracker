@@ -155,7 +155,7 @@ export default function Portfolio() {
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-2xl font-bold">Portfolio</h2>
         <button
-          className={`rounded-2xl px-4 py-2 transition font-medium ${globalEdit ? "bg-black text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+          className={`rounded-2xl px-4 py-2 transition font-medium ${globalEdit ? "bg-black text-white hover:bg-gray-600 cursor-pointer transition" : "bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer transition"}`}
           onClick={() => {
             setGlobalEdit(!globalEdit);
             setEditIndex(null);

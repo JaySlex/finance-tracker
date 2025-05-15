@@ -78,7 +78,7 @@ export default function Login() {
           </div>
 
           <button
-            className="bg-black text-white rounded-xl px-4 py-2 w-full font-semibold"
+            className="bg-black text-white rounded-xl px-4 py-2 w-full font-semibold hover:bg-gray-600 cursor-pointer transition"
             type="submit"
           >
             Login

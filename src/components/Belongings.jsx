@@ -40,7 +40,7 @@ export default function Belongings() {
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-2xl font-bold">Belongings</h2>
         <button
-          className={`ml-4 rounded-2xl px-4 py-2 transition font-medium ${globalEdit ? "bg-black text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+          className={`ml-4 rounded-2xl px-4 py-2 transition font-medium ${globalEdit ? "bg-black text-white hover:bg-gray-600 cursor-pointer transition" : "bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-pointer transition"}`}
           onClick={() => {
             setGlobalEdit(!globalEdit);
             setEditIndex(null);
@@ -61,7 +61,7 @@ export default function Belongings() {
           <input className="border rounded-xl px-3 py-2" placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
           <input className="border rounded-xl px-3 py-2" placeholder="Value" type="number" value={value} onChange={e => setValue(e.target.value)} />
           <button
-            className="bg-black text-white rounded-xl px-4 py-2"
+            className="bg-black text-white rounded-xl px-4 py-2 hover:bg-gray-600 cursor-pointer transition"
             onClick={() => {
               if (!name || isNaN(Number(value))) return;
               setBelongings([...belongings, { name, value: Number(value) }]);
