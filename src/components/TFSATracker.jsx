@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useFinance } from "../context/FinanceContext";
+import { useAuth } from "../context/AuthContext";
 
 // TFSA annual limits by year
 const tfsaLimitByYear = (year) => {
@@ -19,13 +20,20 @@ const latestYear = 2025;
 
 export default function TFSATracker() {
   const { tfsa, setTfsa } = useFinance();
+  const { profile } = useAuth();
   const [year, setYear] = useState("");
   const [contribution, setContribution] = useState({});
   const [withdrawal, setWithdrawal] = useState({});
-  const [birthYear, setBirthYear] = useState("");
-  const [birthYearDraft, setBirthYearDraft] = useState(""); // for controlled field
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+
+  // ---- Use birth year from profile ----
+  let birthYear = undefined;
+  if (profile && profile.dateOfBirth) {
+    // Extract the year as an integer from "YYYY-MM-DD"
+    birthYear = parseInt(profile.dateOfBirth.slice(0, 4), 10);
+    if (isNaN(birthYear)) birthYear = undefined;
+  }
 
   // Dynamic min year logic
   const getMinYear = () => {
@@ -150,51 +158,28 @@ export default function TFSATracker() {
     }
   };
 
-  // ---- Prevent changing birth year if illegal years tracked ----
-
-  const handleBirthYearChange = (e) => {
-    setBirthYearDraft(e.target.value);
-  };
-
-  const handleBirthYearBlur = () => {
-    if (!birthYearDraft || isNaN(Number(birthYearDraft))) {
-      setBirthYearDraft("");
-      return;
-    }
-    const minAllowedYear = Math.max(2009, Number(birthYearDraft) + 18);
-    const illegalYears = tfsa.filter((t) => t.year < minAllowedYear);
-    if (illegalYears.length > 0) {
-      setModalMessage(
-        `You cannot change your birth year to ${birthYearDraft} because you have TFSA years (${illegalYears.map(t => t.year).join(", ")}) before you turned 18. Remove those years first.`
-      );
-      setShowModal(true);
-      setBirthYearDraft(birthYear); // revert draft field to original
-      return;
-    }
-    setBirthYear(birthYearDraft);
-  };
-
-  // Initial birth year field control
-  React.useEffect(() => {
-    setBirthYearDraft(birthYear);
-  }, [birthYear]);
+  if (!birthYear) {
+    return (
+      <div className="p-6 max-w-5xl mx-auto">
+        <div className="text-red-600 font-semibold text-lg">
+          Could not determine your birth year from your account profile. Please set your date of birth in your profile.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section className="p-6 max-w-5xl mx-auto">
       <h2 className="text-2xl font-bold mb-4 text-left">TFSA Contribution Tracker</h2>
       <div className="flex flex-wrap gap-2 mb-6 items-end">
         <div>
-          <label className="block text-sm font-medium mb-1">Your birth year</label>
-          <input
-            className="border rounded-xl px-3 py-2"
-            placeholder="Birth year (e.g. 2002)"
-            value={birthYearDraft === undefined ? "" : birthYearDraft}
-            type="number"
-            min="1900"
-            max={new Date().getFullYear()}
-            onChange={handleBirthYearChange}
-            onBlur={handleBirthYearBlur}
-          />
+          <div className="block text-sm font-medium mb-1">
+            <span>Your birth year: </span>
+            <span className="font-semibold">{birthYear}</span>
+          </div>
+          <div className="block text-xs text-gray-500 mb-1">
+            (From your profile)
+          </div>
         </div>
         {birthYear && eligibleYears.length > 0 && (
           <div className="ml-8">
@@ -361,19 +346,18 @@ export default function TFSATracker() {
       )}
       {/* Modal Popup */}
       {showModal && (
-  <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50">
-    <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md mx-auto">
-      <div className="mb-4 text-lg">{modalMessage}</div>
-      <button
-        className="bg-black text-white px-4 py-2 rounded-xl"
-        onClick={() => setShowModal(false)}
-      >
-        OK
-      </button>
-    </div>
-  </div>
-)}
-
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md mx-auto">
+            <div className="mb-4 text-lg">{modalMessage}</div>
+            <button
+              className="bg-black text-white px-4 py-2 rounded-xl"
+              onClick={() => setShowModal(false)}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
