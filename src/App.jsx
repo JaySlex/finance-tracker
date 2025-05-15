@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { FinanceProvider } from "./context/FinanceContext";
 import { useAuth } from "./context/AuthContext";
 import { BrowserRouter, Routes, Route, Navigate, NavLink, useLocation } from "react-router-dom";
+import Landing from "./components/Landing";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import OnboardingForm from "./components/OnboardingForm";
@@ -140,7 +141,7 @@ function AppContent() {
           {/* Auth pages: accessible when logged out */}
           <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
           <Route path="/signup" element={user ? <Navigate to="/dashboard" /> : <Signup />} />
-
+          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing />} />
           {/* Protected app pages */}
           <Route
             path="/"
