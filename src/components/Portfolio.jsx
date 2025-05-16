@@ -38,12 +38,12 @@ export default function Portfolio() {
     setLoading(false);
   };
 
-  // When picking a result, fetch price from Yahoo Spark and show add form
+
   const handlePick = async (symbol, description) => {
     setSearchError("");
     setLoading(true);
 
-    // Convert Finnhub's "TD:TO" to "TD.TO" for Yahoo
+    // Convert Finnhub's "TD:TO" to "TD.TO" for Yahoo and your backend API
     let yahooSymbol = symbol;
     if (symbol.includes(":")) {
       const [base, exch] = symbol.split(":");
@@ -51,30 +51,22 @@ export default function Portfolio() {
     }
 
     try {
-      const r = await fetch(
-        `https://query1.finance.yahoo.com/v7/finance/spark?symbols=${encodeURIComponent(yahooSymbol)}&interval=1d`
-      );
+      // Call your own backend proxy, NOT Yahoo directly!
+      const r = await fetch(`https://finance-backend-roan.vercel.app/api/yahoo-spark?symbols=${encodeURIComponent(yahooSymbol)}`);
       const data = await r.json();
-      let current = 0;
-      let currency = "";
-      if (
-        data &&
-        data[yahooSymbol] &&
-        data[yahooSymbol].close &&
-        data[yahooSymbol].close.length > 0
-      ) {
-        current = data[yahooSymbol].close[data[yahooSymbol].close.length - 1];
-        if (data[yahooSymbol].currency) currency = data[yahooSymbol].currency;
+      if (data && data.price != null && data.currency) {
+        setAddData({
+          name: `${description} (${yahooSymbol}) [${data.currency}]`,
+          symbol: yahooSymbol,
+          currentPrice: data.price,
+        });
+        setShares(1);
+        setBoughtPrice(data.price);
+        setResults([]);
+        setQuery("");
+      } else {
+        setSearchError("No price found for this symbol.");
       }
-      setAddData({
-        name: `${description} (${yahooSymbol})${currency ? " [" + currency + "]" : ""}`,
-        symbol: yahooSymbol,
-        currentPrice: current,
-      });
-      setShares(1);
-      setBoughtPrice(current);
-      setResults([]);
-      setQuery("");
     } catch {
       setSearchError("Error fetching price");
     }
