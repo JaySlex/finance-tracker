@@ -52,7 +52,7 @@ export default function Portfolio() {
 
     try {
       // Call your own backend proxy, NOT Yahoo directly!
-      const r = await fetch(`https://finance-backend-roan.vercel.app/api/yahoo-spark?symbols=${encodeURIComponent(yahooSymbol)}`);
+      const r = await fetch(`https://finance-backend-roan.vercel.app/api/quote?symbols=${encodeURIComponent(yahooSymbol)}`);
       const data = await r.json();
       if (data && data.price != null && data.currency) {
         setAddData({
