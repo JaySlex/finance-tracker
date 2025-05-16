@@ -38,17 +38,39 @@ export default function Portfolio() {
     setLoading(false);
   };
 
-  // When picking a result, fetch current price and show add form
+  // When picking a result, fetch price from Yahoo Spark and show add form
   const handlePick = async (symbol, description) => {
     setSearchError("");
     setLoading(true);
+
+    // Convert Finnhub's "TD:TO" to "TD.TO" for Yahoo
+    let yahooSymbol = symbol;
+    if (symbol.includes(":")) {
+      const [base, exch] = symbol.split(":");
+      yahooSymbol = `${base}.${exch}`;
+    }
+
     try {
       const r = await fetch(
-        `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${API_KEY}`
+        `https://query1.finance.yahoo.com/v7/finance/spark?symbols=${encodeURIComponent(yahooSymbol)}&interval=1d`
       );
       const data = await r.json();
-      let current = typeof data.c === "number" ? Math.round(data.c * 100) / 100 : 0;
-      setAddData({ name: `${description} (${symbol})`, symbol, currentPrice: current });
+      let current = 0;
+      let currency = "";
+      if (
+        data &&
+        data[yahooSymbol] &&
+        data[yahooSymbol].close &&
+        data[yahooSymbol].close.length > 0
+      ) {
+        current = data[yahooSymbol].close[data[yahooSymbol].close.length - 1];
+        if (data[yahooSymbol].currency) currency = data[yahooSymbol].currency;
+      }
+      setAddData({
+        name: `${description} (${yahooSymbol})${currency ? " [" + currency + "]" : ""}`,
+        symbol: yahooSymbol,
+        currentPrice: current,
+      });
       setShares(1);
       setBoughtPrice(current);
       setResults([]);
